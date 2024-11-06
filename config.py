@@ -1,0 +1,1 @@
+DRIVE_PATH_VIVA = "/Volumes/VIVA HD/ADA" 
