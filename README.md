@@ -64,7 +64,8 @@ To obtain the following labels, we implemented two pipelines based on various LL
 
 ## Timeline 
 
-Add a Gantt chart?
+![image](https://github.com/user-attachments/assets/b501c1f5-88b5-4dd8-8b5c-149c08303777)
+
 
 
 ## Project Structure
