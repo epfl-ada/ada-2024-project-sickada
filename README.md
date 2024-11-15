@@ -39,7 +39,7 @@ Using a LLM model, we classify educational videos into subcategories:
 - **Purpose**: describes the modality of the video (e.g. academic course VS tutorial VS documentary VS ...)
 - **Level**: describes the estimated level of the target audience (advanced VS intermediate VS beginner)
 - **Content**: describes the content of the video (e.g. science VS history VS home repair VS ...)
-Currently, we consider two models for the classification: [BART or BERT](https://medium.com/@reyhaneh.esmailbeigi/bert-gpt-and-bart-a-short-comparison-5d6a57175fca). Depending on model performance and computation speed on a sample of ~450k videos (~12% of the Education set), we will choose one of the models to extend the analysis to the whole set of interest (~3.8M videos). The two classification pipelines (one per model) are described in **NOTEBOOK NAME FROM SRC**.
+Currently, we consider two models for the classification: [BART or BERT](https://medium.com/@reyhaneh.esmailbeigi/bert-gpt-and-bart-a-short-comparison-5d6a57175fca). Depending on model performance and computation speed on a sample of ~450k videos (~12% of the Education set), we will choose one of the models to extend the analysis to the whole set of interest (~3.8M videos).
 
 ## Methods
 1. Extract data by batches → only select videos categorized as “Education”
