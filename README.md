@@ -9,7 +9,7 @@ But sometimes, text isn't enough—enter YouTube. With videos available on virtu
 
 ## Research Questions
 #### What is YouTube’s teaching style?
-- What purpose do videos have? Are they academic-based or for edutainment?
+- What purpose do videos have? Are they academic-based or for edutainment (education + entertainment)?
 - What categories of content are posted and appreciated?
 - What is the level of the target audience? Does this change for various categories?
 - Do people prefer quick tutorials over lengthy explanations? Does this change between categories?
