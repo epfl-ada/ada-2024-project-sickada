@@ -164,3 +164,4 @@ cython_debug/
 
 /data/raw
 /data/derivatives
+.DS_Store

@@ -1,8 +1,9 @@
 import wikipediaapi
 from collections import Counter
-import spacy
+#import spacy
 
-nlp = spacy.load("en_core_web_sm")
+# TODO resolve library version compatibility
+#nlp = spacy.load("en_core_web_sm")
 
 def extract_text_from_wikipedia(url):
     """
@@ -54,7 +55,7 @@ def find_keywords(text, num_keywords=10):
         A list of the most common keywords in lowercase, limited to nouns and proper nouns.
     """
 
-    doc = nlp(text)
+    doc = None #nlp(text) # TODO resolve library version compatibility
 
     keywords = [token.text.lower() for token in doc if token.pos_ in ["NOUN", "PROPN"]]
 

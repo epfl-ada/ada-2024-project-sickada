@@ -1,9 +1,6 @@
 DRIVE_PATH_VIVA = r"/Volumes/VIVA HD/ADA" 
 DRIVE_PATH_FLORIAN = r"C:\Users\Flori\Docs\Python\M2_S3_ADA\Project - data\Education_videos_5.csv" # for a single sample for now
 
-# TODO
-# Categories Florian - A updater
-
 purpose_labels = [
     "lecture or academic course", #exercise
     #"study-tips or test preparation",

@@ -1,4 +1,3 @@
-
 import os 
 import os.path as op
 
@@ -7,6 +6,9 @@ import glob
 import random
 import matplotlib.pyplot as plt
 import seaborn as sns
+import re
+import json
+import gzip
 
 from transformers import pipeline
 
@@ -229,6 +231,31 @@ def youtube_country_scraper(channel_ids, verbose = False):
 # Functions FRED
 # ______________________________________________________________________________________________________________________
 
+
+def remove_nan(df: pd.DataFrame) :
+    df = df.dropna()
+    return df
+
+def clean_non_ascii(text):
+    return re.sub(r'[^\x00-\x7F]+', ' ', text)
+
+def replace_non_ascii_in_dataframe(df, columns=['title', 'tags', 'description']):
+    for column in columns:
+        df.loc[:, column] = df[column].apply(lambda x: clean_non_ascii(x) if isinstance(x, str) else x)
+    return df
+
+def remove_rows_with_empty_strings(df, columns=['title', 'tags', 'description']):
+    # Filter out rows where any specified column has an empty string
+    df_filtered = df[~df[columns].apply(lambda row: any(cell == "" for cell in row), axis=1)]
+    return df_filtered
+
+def clean_data(df: pd.DataFrame) :
+    out = remove_nan(df)
+    out = replace_non_ascii_in_dataframe(out)
+    out = remove_rows_with_empty_strings(out)
+    return out
+
+
 def random_sample_from_csv_files(directory_path, total_sample_size):
     # Find all CSV files that start with "Education_videos_"
     file_paths = glob.glob(f"{directory_path}/Education_videos_*.csv")
@@ -300,137 +327,3 @@ def category_filter(df: pd.DataFrame, category: str):
         lambda row: row["weights"][row["categories"].index(category)], axis=1
     )
     return filtered_df
-
- 
-# ______________________________________________________________________________________________________________________
-# Functions Timeseries analysis
-# ______________________________________________________________________________________________________________________
-  
-def plot_weighted_timeseries(
-    df_ts: pd.DataFrame, channels_cat: pd.DataFrame, category: str, year: int
-):
-    # Filter the channels and extract category weight
-    filtered_df = category_filter(channels_cat, category)
-    # Keep channels that are in common with the classified videos channels
-    df_ts_filtered = df_ts[df_ts["channel"].isin(filtered_df["channel_id"])]
-
-    # Merge to bring in category weights
-    df_ts_weighted = df_ts_filtered.merge(
-        filtered_df[["channel_id", "category_weight"]],
-        left_on="channel",
-        right_on="channel_id",
-        how="left",
-    )
-
-    # Apply weights to metrics
-    df_ts_weighted["weighted_delta_views"] = (
-        df_ts_weighted["delta_views"] * df_ts_weighted["category_weight"]
-    )
-    df_ts_weighted["weighted_delta_videos"] = (
-        df_ts_weighted["delta_videos"] * df_ts_weighted["category_weight"]
-    )
-    df_ts_weighted["weighted_delta_subs"] = (
-        df_ts_weighted["delta_subs"] * df_ts_weighted["category_weight"]
-    )
-
-    # Plot delta views, delta videos, delta subs, weighted by channel category weights
-    fig, ax = plt.subplots(1, 3, figsize=(15, 5))
-    ax = ax.flatten()
-    peak_views = (
-        df_ts_weighted[df_ts_weighted["year"] == year]
-        .groupby("month")["weighted_delta_views"]
-        .sum()
-    )
-    sns.barplot(peak_views, ax=ax[0])
-    ax[0].set_ylabel("Weighted Delta Views")
-    ax[0].set_title(f"Weighted delta views, Category {category}, Year {year}")
-
-    peak_uploads = (
-        df_ts_weighted[df_ts_weighted["year"] == year]
-        .groupby("month")["weighted_delta_videos"]
-        .sum()
-    )
-    sns.barplot(peak_uploads, ax=ax[1])
-    ax[1].set_ylabel("Weighted Delta Videos")
-    ax[1].set_title(f"Weighted delta videos, Category {category}, Year {year}")
-
-    peaks_subs = (
-        df_ts_weighted[df_ts_weighted["year"] == year]
-        .groupby("month")["weighted_delta_subs"]
-        .sum()
-    )
-    sns.barplot(peaks_subs, ax=ax[2])
-    ax[2].set_ylabel("Weighted Delta Subscribers")
-    ax[2].set_title(f"Weighted delta subscribers, Category {category}, Year {year}")
-
-    plt.tight_layout()
-
-
-def plot_unweighted_timeseries(
-    df_ts: pd.DataFrame, channels_cat: pd.DataFrame, category: str, year: int
-):
-    # Filter the channels and extract category weight
-    filtered_df = category_filter(channels_cat, category)
-    # Keep channels that are in common with the classified videos channels
-    df_ts_filtered = df_ts[df_ts["channel"].isin(filtered_df["channel_id"])]
-
-    # Plot delta views, delta videos, delta subs, weighted by channel category weights
-    fig, ax = plt.subplots(1, 3, figsize=(15, 5))
-    ax = ax.flatten()
-    peak_views = (
-        df_ts_filtered[df_ts_filtered["year"] == year]
-        .groupby("month")["delta_views"]
-        .sum()
-    )
-    sns.barplot(peak_views, ax=ax[0])
-    ax[0].set_ylabel("Delta Views")
-    ax[0].set_title(f"Unweighted delta views, Category {category}, Year {year}")
-
-    peak_uploads = (
-        df_ts_filtered[df_ts_filtered["year"] == year]
-        .groupby("month")["delta_videos"]
-        .sum()
-    )
-    sns.barplot(peak_uploads, ax=ax[1])
-    ax[1].set_ylabel("Delta Videos")
-    ax[1].set_title(f"Unweighted delta videos, Category {category}, Year {year}")
-
-    peaks_subs = (
-        df_ts_filtered[df_ts_filtered["year"] == year]
-        .groupby("month")["delta_subs"]
-        .sum()
-    )
-    sns.barplot(peaks_subs, ax=ax[2])
-    ax[2].set_ylabel("Delta Subscribers")
-    ax[2].set_title(f"Unweighted delta subscribers, Category {category}, Year {year}")
-
-    plt.tight_layout()
-
-
-def plot_timeseries_single_category(
-    df_ts: pd.DataFrame, channels_cat: pd.DataFrame, category: str, year: int
-):
-
-    filtered_df = channels_cat[channels_cat["dominant_category"] == category]
-
-    df_ts_cat = df_ts[df_ts["channel"].isin(filtered_df["channel_id"])]
-    df_ts_cat = df_ts_cat[df_ts_cat["year"] == year]
-
-    fig, ax = plt.subplots(1, 3, figsize=(15, 5))
-    ax = ax.flatten()
-    peak_views = df_ts_cat.groupby("month")["delta_views"].sum()
-    sns.barplot(peak_views, ax=ax[0])
-    ax[0].set_ylabel("Delta Views")
-    ax[0].set_title(f"delta views, Category {category}, Year {year}")
-
-    peak_videos = df_ts_cat.groupby("month")["delta_videos"].sum()
-    sns.barplot(peak_videos, ax=ax[1])
-    ax[1].set_ylabel("Delta Videos")
-    ax[1].set_title(f"delta videos, Category {category}, Year {year}")
-
-    peak_subs = df_ts_cat.groupby("month")["delta_subs"].sum()
-    sns.barplot(peak_subs, ax=ax[2])
-    ax[2].set_ylabel("Delta Subscribers")
-    ax[2].set_title(f"delta subscribers, Category {category}, Year {year}")
-
-    plt.tight_layout()
