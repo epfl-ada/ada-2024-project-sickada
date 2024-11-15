@@ -29,17 +29,17 @@ But sometimes, text isn't enough—enter YouTube. With videos available on virtu
 ## Dataset
 We will use [YouNiverse](https://zenodo.org/records/4650046) dataset, containing data about the content published on YouTube between May 2005 and October 2019. Since it is large we have extracted video metadata in batches as shown in `data_extraction.ipynb` and decided to avoid using comment metadata, thus handling much smaller amounts of data.
 
-The video metadata extracted corresponds to all videos listed as “Educational” by their creator. The category of the channel is not as relevant as it is determined by that of the 10 most recent videos. 
+The video metadata extracted corresponds to all videos listed as “Educational” by their creator: ~3.8M videos across ~25k channels. The category of the channel is not as relevant as it is determined by that of the 10 most recent videos. 
 
 ### Complementary dataset
-We scraped the country of origin of ≈25k channels through the YouTube data API v3. (Since deleted channels do not store this information we might attempt to complement this with scraping of the web archive of [socialblade](https://socialblade.com/), the actual website having a paid API.)
+We scraped the country of origin of ~25k channels through the YouTube data API v3. (Since deleted channels do not store this information we might attempt to complement this with scraping of the web archive of [socialblade](https://socialblade.com/), the actual website having a paid API.)
 
 ### Data Enrichment
-To obtain the following labels, we implemented two pipelines based on various LLMs as described in ??notebook names??. We intend to compare the models’ performances to decide which one to use going further.
-**Purpose**: describing the type of educational content, e.g. lecture or academic course vs hacks.
-**Level**: reflecting the estimated level of understanding of the target audience, e.g. advanced vs beginner.
-**Content**: the subcategories of educational content, e.g. science or technology vs home repair or renovation.
-
+Using a LLM model, we classify educational videos into subcategories:
+- **Purpose**: describes the modality of the video (e.g. academic course VS tutorial VS documentary VS ...)
+- **Level**: describes the estimated level of the target audience (advanced VS intermediate VS beginner)
+- **Content**: describes the content of the video (e.g. science VS history VS home repair VS ...)
+Currently, we consider two models for the classification: [BART or BERT](https://medium.com/@reyhaneh.esmailbeigi/bert-gpt-and-bart-a-short-comparison-5d6a57175fca). Depending on model performance and computation speed on a sample of ~450k videos (~12% of the Education set), we will choose one of the models to extend the analysis to the whole set of interest (~3.8M videos). The two classification pipelines (one per model) are described in **NOTEBOOK NAME FROM SRC**.
 
 ## Methods
 1. Extract data by batches → only select videos categorized as part of  “education”
@@ -62,7 +62,7 @@ To obtain the following labels, we implemented two pipelines based on various LL
 
 **Yann**: implementation of BART pipeline + data exploration
 
-## Timeline 
+### Timeline 
 
 ![image](https://github.com/user-attachments/assets/b501c1f5-88b5-4dd8-8b5c-149c08303777)
 
