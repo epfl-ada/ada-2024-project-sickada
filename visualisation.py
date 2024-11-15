@@ -3,10 +3,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 from statsmodels.tsa.stattools import ccf
+import matplotlib.lines as mlines
 
-def plot_time_series(df, topic_name, sample_size, save_dir='time_series_plots'):
+def plot_time_series(df, topic_name, sample_size, frequency, event_dict=None, save_dir='time_series_plots'):
     """
-    Plots new content creation over time based on the provided DataFrame and topic name.
+    Plots new content creation over time based on the provided DataFrame and topic name,
+    and marks major events with vertical lines and numbered labels only in the legend box.
 
     Parameters:
     - df (DataFrame): 
@@ -15,12 +17,17 @@ def plot_time_series(df, topic_name, sample_size, save_dir='time_series_plots'):
         The topic name to be included in the plot title and filename.
     - sample_size (int): 
         The sample size to be included in the plot title and filename.
+    - frequency (str): 
+        Frequency of the time series ('W' for weekly, 'ME' for monthly).
+    - event_dict (dict, optional): 
+        A dictionary where keys are event dates (as strings or datetime objects) and values are event names.
     - save_dir (str, optional): 
         Directory where the plot will be saved. Default is 'time_series_plots'.
 
     Returns:
     - None: This function saves the plot to the specified directory.
     """
+
     time_slot_columns = []
     for col in df.columns:
         try:
@@ -40,31 +47,82 @@ def plot_time_series(df, topic_name, sample_size, save_dir='time_series_plots'):
 
     pivot_data = long_data.pivot(index='time_slot', columns='category', values='content_creation').fillna(0)
 
-    plt.figure(figsize=(12, 6))
+    fig, ax1 = plt.subplots(figsize=(16, 6))
+
     categories = pivot_data.columns
     x = np.arange(len(pivot_data))
-    width = 0.2
+    width = 0.1
 
+    # Plot categories with bars
+    category_bars = []
     for i, category in enumerate(categories):
-        plt.bar(x + i * width, pivot_data[category], width, label=category)
+        bar = ax1.bar(x + i * width, pivot_data[category], width, label=category)
+        category_bars.append(bar)
 
-    plt.xlabel('Time Period')
-    plt.ylabel('New Content Creation (s)')
-    plt.title(f'{topic_name} Content Creation Over Time with {sample_size} samples from YouNiverse Dataset')
-    plt.legend(title='Category')
+    ax1.set_xlabel('Time Period')
+    ax1.set_ylabel('New Content Creation (s)')
+    ax1.set_title(f'{topic_name} Content Creation Over Time with {sample_size} samples from YouNiverse Dataset')
 
-    tick_spacing = 3
-    plt.xticks(x[::tick_spacing], pivot_data.index.strftime('%m-%Y')[::tick_spacing], rotation=45)
+    tick_spacing = 3 if frequency == 'ME' else 4
+    
+    if frequency == 'ME':  # Monthly data
+        date_format = '%m-%Y'  # Example: "01-2020"
+    elif frequency == 'W':  # Weekly data
+        date_format = '%U-%Y'  # Example: "01-2020" (week number and year)
+    
+    ax1.set_xticks(x[::tick_spacing])
+    ax1.set_xticklabels(pivot_data.index.strftime(date_format)[::tick_spacing], rotation=45)
+
+    event_labels = {}
+    event_lines = []  # To store event line objects for legend
+    if event_dict:
+        event_counter = 1
+        for event_date, event_name in event_dict.items():
+            event_date = pd.to_datetime(event_date)
+
+            if event_date in pivot_data.index:
+                event_x_pos = np.where(pivot_data.index == event_date)[0][0]
+                
+                # Plot event line
+                line = ax1.axvline(event_x_pos, color='g', linestyle='--', lw=2)  # Vertical line for event
+                event_lines.append(line)
+                
+                event_labels[event_counter] = f"Event {event_counter}: {event_name}"
+                event_counter += 1
+
+    ax1.set_yscale('log')
+
+    # Customize legend: First the categories, then the events
+    category_legend_labels = [patch.get_label() for patch in category_bars]  # Bar labels for categories
+    event_legend_labels = [label for label in event_labels.values()]  # Event labels
+
+    # Create legend handles for the categories and events
+    # Creating legend entries for events as lines
+    event_handles = [mlines.Line2D([0], [0], color='g', linestyle='--', lw=2) for _ in event_lines]
+
+    # Combine category and event handles/labels
+    handles = category_bars + event_handles
+    labels = category_legend_labels + event_legend_labels
+
+    # Place the legend under the plot
+    ax1.legend(handles, labels, title="Legend", loc='upper center', bbox_to_anchor=(0.5, -0.3), ncol=2)
 
     if not os.path.exists(save_dir):
         os.makedirs(save_dir)
 
-    file_path = os.path.join(save_dir, f"{topic_name.replace(' ', '_')}_time_series_{sample_size}_samples.png")
+    frequency_label = 'monthly' if frequency == 'ME' else 'weekly'
+    if event_dict is not None:
+        file_suffix = "_with_events"
+    else:
+        file_suffix = "_without_events"
+
+    file_path = os.path.join(save_dir, f"{topic_name.replace(' ', '_')}_time_series_{sample_size}_samples_{frequency_label}{file_suffix}.png")
+
     plt.tight_layout()
     plt.savefig(file_path)
     plt.close()
 
-def plot_cross_correlation(df, topic_name, sample_size, save_directory='cross_correlation_plots', max_lag=20):
+def plot_cross_correlation(df, topic_name, sample_size, save_directory='cross_correlation_plots', max_lag=50):
     """
     Plots the cross-correlation of different categories against the 'Education' category using bar plots.
 
@@ -141,4 +199,3 @@ def plot_cross_correlation(df, topic_name, sample_size, save_directory='cross_co
     file_path = os.path.join(save_directory, f'cross_correlation_with_{topic_name.replace(" ", "_")}_{sample_size}_samples.png')
     plt.savefig(file_path)
     plt.close()
-    print(f"Cross-correlation plot saved as {file_path}")

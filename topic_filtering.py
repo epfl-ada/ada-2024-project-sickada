@@ -92,17 +92,21 @@ def meets_keyword_requirements(row, keywords, weights=None, min_occurrences=2, m
         Returns `True` if at least `min_keywords` of the keywords meet the weighted occurrence 
         threshold in the row. Otherwise, returns `False`.
     """
-    
+
     if weights is None:
         weights = {'title': 1, 'description': 1, 'tags': 1}
 
     matching_keywords_count = 0
 
     for keyword in keywords:
-        title_occurrences = row['title'].lower().count(keyword.lower()) * weights['title']
-        description_occurrences = row['description'].lower().count(keyword.lower()) * weights['description']
-        tags_occurrences = row['tags'].lower().count(keyword.lower()) * weights['tags']
-        
+        title_text = str(row.get('title', '')).lower()
+        description_text = str(row.get('description', '')).lower()
+        tags_text = str(row.get('tags', '')).lower()
+
+        title_occurrences = title_text.count(keyword.lower()) * weights['title']
+        description_occurrences = description_text.count(keyword.lower()) * weights['description']
+        tags_occurrences = tags_text.count(keyword.lower()) * weights['tags']
+
         total_weighted_occurrences = title_occurrences + description_occurrences + tags_occurrences
 
         if total_weighted_occurrences >= min_occurrences:

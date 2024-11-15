@@ -1,6 +1,6 @@
 import pandas as pd
 
-def create_time_slots(df, frequency='ME', max_non_zero_count=5):
+def create_time_slots(df, frequency='ME', max_non_zero_count=10):
     """
     Discretize video upload dates into time slots with formatted names, capturing video duration in corresponding slots,
     and filtering out categories with more than a specified count of non-zero entries.
@@ -20,9 +20,14 @@ def create_time_slots(df, frequency='ME', max_non_zero_count=5):
         DataFrame with aggregated duration values for each category across defined time slots, 
         with columns named by date and filtered according to `max_non_zero_count`.
     """
-
+    # Convert 'upload_date' to datetime and handle potential NaT values
     df['upload_date'] = pd.to_datetime(df['upload_date'], errors='coerce')
-    df = df.dropna(subset=['upload_date'])
+    
+    # Drop rows where 'upload_date' is NaT and create a copy to avoid SettingWithCopyWarning
+    df = df.dropna(subset=['upload_date']).copy()
+
+    #df['upload_date'] = pd.to_datetime(df['upload_date'], errors='coerce')
+    #df = df.dropna(subset=['upload_date'])
 
     if df['upload_date'].empty:
         raise ValueError("The DataFrame does not contain valid 'upload_date' values.")
