@@ -84,7 +84,7 @@ The directory structure of our project looks like this:
 ├── tests                       <- tests (currently empty)
 │
 ├── pipelines                   <- various pipelines under development
-│      ├──country_scraping.ipynb       <- script to scrape country feature for channels using YouTube’s API
+│      ├── country_scraping.ipynb      <- script to scrape country feature for channels using YouTube’s API
 │      ├── labelling_BERT.ipynb        <- script to label videos’ purpose, complexity and content using google’s BERT
 │      ├── labelling_BART.ipynb        <- script to label videos’ purpose, complexity and content using Meta’s BART
 │      ├── data_exploration.ipynb      <- script to produce figures in `/figures/exploration`
