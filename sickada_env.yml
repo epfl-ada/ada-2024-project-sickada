@@ -1,0 +1,10 @@
+name : sickada_env
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python = 3.9
+  - numpy
+  - matplotlib
+  - pandas
+  - seaborn
