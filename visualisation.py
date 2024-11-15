@@ -2,8 +2,12 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import os
+import os.path as op
 from statsmodels.tsa.stattools import ccf
 import matplotlib.lines as mlines
+
+figures_path = op.join('data', 'figures')
+
 
 def plot_time_series(df, topic_name, sample_size, frequency, event_dict=None, save_dir='time_series_plots'):
     """
@@ -106,7 +110,7 @@ def plot_time_series(df, topic_name, sample_size, frequency, event_dict=None, sa
 
     # Place the legend under the plot
     ax1.legend(handles, labels, title="Legend", loc='upper center', bbox_to_anchor=(0.5, -0.3), ncol=2)
-
+    save_dir = os.path.join(figures_path, save_dir)
     if not os.path.exists(save_dir):
         os.makedirs(save_dir)
 
@@ -141,7 +145,7 @@ def plot_cross_correlation(df, topic_name, sample_size, save_directory='cross_co
     Returns:
     - None: This function saves the plot to the specified directory.
     """
-
+    save_directory = os.path.join(figures_path, save_directory)
     os.makedirs(save_directory, exist_ok=True)
 
     time_slot_columns = [col for col in df.columns if col != 'category' and col != 'video_id']

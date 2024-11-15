@@ -5,6 +5,9 @@ from collections import defaultdict
 from transformers import BartTokenizer, BartForSequenceClassification
 import torch
 import os
+import os.path as op
+
+figures_path = op.join('data', 'figures')
 
 def classify_video_education(df, category_col='categories', title_col='title', description_col='description', tags_col='tags'):
     """
@@ -122,6 +125,7 @@ def save_confusion_matrices(confusion_matrices, output_folder="confusion_matrice
     - None
     """
     # Create folder if not existing
+    output_folder = os.path.join(figures_path, output_folder) # goes into figures because it is a visualisation tool
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
     
