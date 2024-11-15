@@ -1,10 +1,13 @@
+
 import os 
 import os.path as op
+
 import pandas as pd
 import glob
 import random
 import matplotlib.pyplot as plt
 import seaborn as sns
+
 from transformers import pipeline
 
 from googleapiclient.discovery import build
@@ -298,14 +301,10 @@ def category_filter(df: pd.DataFrame, category: str):
     )
     return filtered_df
 
-
-
-  
+ 
 # ______________________________________________________________________________________________________________________
 # Functions Timeseries analysis
 # ______________________________________________________________________________________________________________________
-  
-  
   
 def plot_weighted_timeseries(
     df_ts: pd.DataFrame, channels_cat: pd.DataFrame, category: str, year: int
@@ -435,4 +434,3 @@ def plot_timeseries_single_category(
     ax[2].set_title(f"delta subscribers, Category {category}, Year {year}")
 
     plt.tight_layout()
-
