@@ -70,26 +70,36 @@ Currently, we consider two models for the classification: [BART or BERT](https:/
 
 ## Project Structure
 
-The directory structure of new project looks like this:
+The directory structure of our project looks like this:
 
 ```
 ├── data                        <- Project data files
+│   ├── derivatives             <- produced data
 │   ├── figures
-│      ├── exploration          <- ???
-├── src                         <- various pipelines under development
+│      ├── exploration              <- exploratory plots of the data
+│      ├── confusion matrices       <- files to plot confusion matrices
+│      ├── cross_correlation_plots  <- cross correlation of different time series
+│      ├── time_series_plots        <- Evolution of different topics' coverage over time, put into perspective with different events in their fields
 │
-├── data_extraction.ipynb       <- extract data from video metadata file and save as multiple batches
-├── country_scraping.ipynb      <- script to scrape country feature for channels using YouTube’s API
-├── labelling_BERT.ipynb        <- script to label videos’ purpose, complexity and content using google’s BERT
-├── labelling_BART.ipynb        <- script to label videos’ purpose, complexity and content using Meta’s BART
-├── data_exploration.ipynb      <- script to produce figures in `/figures`
-├── config.py                   <- file containing global variables as well as label lists to feed LLMs
+├── tests                       <- tests (currently empty)
 │
-├── figures
-│   ├── exploration             <- Data directory
+├── pipelines                   <- various pipelines under development
+│      ├──country_scraping.ipynb       <- script to scrape country feature for channels using YouTube’s API
+│      ├── labelling_BERT.ipynb        <- script to label videos’ purpose, complexity and content using google’s BERT
+│      ├── labelling_BART.ipynb        <- script to label videos’ purpose, complexity and content using Meta’s BART
+│      ├── data_exploration.ipynb      <- script to produce figures in `/figures/exploration`
+│      ├── data_extraction.ipynb       <- extract data from video metadata file and save as multiple batches
+│      ├── ...
 │
-├── .gitignore                  <- List of files ignored by git
-├── pip_requirements.txt        <- File for installing python dependencies
+├── results.ipynb              <- summary of the current status of our project
+├── time_series.py             <- time series discretization function
+├── topic_filtering.py         <- extract keywords from a wikipedia text to determine most frequent words in a topic
+├── utils.py                   <- all sorts of handy functions
+├── classify.py                <- functions to classify text with a given model
+├── visualisation.py           <- plotting functions
+├── config.py                  <- file containing global variables as well as label lists to feed LLMs
+├── .gitignore                 <- List of files ignored by git
+├── sickada_env.yml            <- File for installing python dependencies
 └── README.md
 ```
 
