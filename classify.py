@@ -7,7 +7,20 @@ from datasets import Dataset
 import ast
 
 
-def classify_dataset(batch, candidate_labels, on, classifier, multi_label=False):
+def classify_batch(batch, candidate_labels, on, classifier, multi_label=False):
+    """Perform classification on a batch
+
+    Args:
+        batch (datasets.Dataset): Batch of data to be classified
+        candidate_labels (list(str)): Labels used for classification
+        on (str): Column to be classified
+        classifier (transformers.pipeline): Classification pipeline
+        multi_label (bool, optional): Decide whether the text is classified for each label independently or not. Defaults to False.
+
+    Returns:
+        datasets.Dataset: The original batch with a new column containing the labels.
+    """
+
     texts = batch[on]
     results = classifier(texts, candidate_labels, multi_label=multi_label)
 
@@ -41,11 +54,25 @@ def classify_dataset(batch, candidate_labels, on, classifier, multi_label=False)
 def classify(
     data, candidate_labels, classifier, on="text", multi_label=True, batch_size=16
 ):
+    """Labels text from a pandas DataFrame
+
+    Args:
+        data (pd.Dataframe): DataFrame containing the text to be classified
+        candidate_labels (list(str)): Labels used for classification
+        classifier (transformers.pipeline): Classification pipeline
+        on (str, optional): Column used for classification. Defaults to "text".
+        multi_label (bool, optional): Decide whether the text is classified for each label independently or not. Defaults to True.
+        batch_size (int, optional): Batch size. Defaults to 16.
+
+    Returns:
+        pd.DataFrame: The original DataFrame with a new column containing the labels
+    """
+
     print("Converting to dataset...")
     dataset = Dataset.from_pandas(data)
     print("Processing...")
     dataset = dataset.map(
-        classify_dataset,
+        classify_batch,
         batched=True,
         batch_size=batch_size,
         fn_kwargs={
