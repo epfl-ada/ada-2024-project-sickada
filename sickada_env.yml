@@ -1,10 +1,18 @@
-name : sickada_env
+name: sickada_env
 channels:
   - defaults
   - conda-forge
 dependencies:
-  - python = 3.9
+  - python=3.9
   - numpy
   - matplotlib
   - pandas
   - seaborn
+  - tqdm
+  - basemap
+  - pip
+  - pip:
+      - transformers 
+      - google-api-python-client
+      - google-auth-oauthlib
+      - google-auth-httplib2
