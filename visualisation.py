@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import seaborn as sns
 import os
 import os.path as op
 from statsmodels.tsa.stattools import ccf
@@ -338,3 +339,90 @@ def plot_timeseries_single_category(
     ax[2].set_title(f"delta subscribers, Category {category}, Year {year}")
 
     plt.tight_layout()
+
+def plot_categories(drive_path, channels_df, categories):
+
+    # load educational files
+    educational_dfs_names = os.listdir(os.path.join(drive_path, 'extracted_Education'))
+    edu_dfs = [pd.read_csv(os.path.join(drive_path, 'extracted_Education', name)) for name in educational_dfs_names]
+    category_map = channels_df.set_index('channel')['category_cc'].to_dict()
+    for edu_df in edu_dfs:
+        edu_df['category_cc_mapped'] = edu_df['channel_id'].map(category_map)
+
+    # hold category counts
+    counts_df = pd.DataFrame(index=categories)
+
+    # calculate counts for each dataframe
+    for i, edu_df in enumerate(edu_dfs):
+        counts = edu_df['category_cc_mapped'].value_counts(dropna=False).reindex(categories, fill_value=0)
+        counts_df[f'df_{i}'] = counts
+
+    # also count nans
+    nan_counts = [edu_df['category_cc_mapped'].isna().sum() for edu_df in edu_dfs]
+    counts_df.loc['NaN'] = nan_counts
+
+    # sum to have the total of categories
+    counts_df['total'] = counts_df.sum(axis=1)
+    counts_df_sorted = counts_df.sort_values(by='total', ascending=False)
+
+    plt.figure(figsize=(10, 8))
+    sns.barplot(x='total', y=counts_df_sorted.index, data=counts_df_sorted, palette='viridis')
+    plt.title('Total Counts per Category (Ordered)')
+    plt.xscale('log')
+    plt.xlabel('Total Count')
+    plt.ylabel('Category')
+    plt.show()
+
+def plot_educational_distribution(drive_path, categories):
+    # load educational files
+    educational_dfs_names = os.listdir(os.path.join(drive_path, 'extracted_Education'))
+    edu_dfs = [pd.read_csv(os.path.join(drive_path, 'extracted_Education', name)) for name in educational_dfs_names]
+
+    # count the number of educational videos per channel and group them by channel category
+    total_channel_edu_df = pd.DataFrame()
+    for edu_df in edu_dfs:  
+        channel_grouped_edu_df = edu_df['channel_id'].value_counts().reset_index()
+        unique_channels = edu_df[['channel_id', 'category_cc_mapped']].drop_duplicates(subset='channel_id')
+        channel_grouped_edu_df = channel_grouped_edu_df.merge(unique_channels, on='channel_id', how='left')
+
+        total_channel_edu_df = pd.concat([total_channel_edu_df, channel_grouped_edu_df])
+    final_channel_df = total_channel_edu_df
+
+    # subplot grid (adjust rows/cols based on the number of categories)
+    categories.sort()
+    num_categories = len(categories)
+    cols = 4
+    rows = (num_categories + cols - 1) // cols  # rows needed for given columns
+
+    # Create a figure with subplots for each category
+    fig, axes = plt.subplots(rows, cols, figsize=(20, 15), sharex=False, sharey=False)
+
+    # Flatten the axes array to easily iterate and plot
+    axes = axes.flatten()
+
+    # Loop through each category to plot
+    for i, category in enumerate(categories):
+        if category != 'NaN':
+            cat_data = final_channel_df[final_channel_df['category_cc_mapped']== category]
+            cat_data = cat_data.rename(columns = {'count': 'video_count'})
+            cat_data = cat_data.groupby(['channel_id', 'category_cc_mapped'], as_index = False)['video_count'].sum()
+        else:
+            cat_data = final_channel_df[final_channel_df['category_cc_mapped'].isna()]
+            cat_data = cat_data.rename(columns = {'count': 'video_count'})
+            cat_data = cat_data.groupby(['channel_id'], as_index = False)['video_count'].sum()
+
+
+        # Plot the distribution
+        sns.boxplot(data = cat_data, y='video_count', color='hotpink', ax = axes[i])
+        axes[i].set_title(f'{category} channels - total = {len(cat_data)}')
+        axes[i].set_ylabel('Number of videos [log]')
+        axes[i].set_yscale('log')
+            
+    # Remove any unused subplots
+    for j in range(i + 1, len(axes)):
+        fig.delaxes(axes[j])
+
+    # Adjust layout and display plot
+    plt.suptitle('Educational Video Count Distribution in YouTube Channels', fontsize = 30)
+    plt.tight_layout()
+    plt.show()
