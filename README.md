@@ -11,7 +11,7 @@ But sometimes, text isn't enough—enter YouTube. With videos available on virtu
 #### What is YouTube’s teaching style?
 - What purpose do videos have? Are they academic-based or for edutainment (education + entertainment)?
 - What categories of content are posted and appreciated?
-- What is the level of the target audience? Does this change for various categories?
+- What is the level of the target audience (beginner, intermediate,...)? Does this change for various categories?
 - Do people prefer quick tutorials over lengthy explanations? Does this change between categories?
 
 #### When did YouTube start teaching us?
@@ -27,12 +27,12 @@ But sometimes, text isn't enough—enter YouTube. With videos available on virtu
 - How does learning content evolve based on the location of creators?
 
 ## Dataset
-We will use [YouNiverse](https://zenodo.org/records/4650046) dataset, containing data about the content published on YouTube between May 2005 and October 2019. Since it is large we have extracted video metadata in batches as shown in `data_extraction.ipynb` and decided to avoid using comment metadata, thus handling much smaller amounts of data.
+We will use [YouNiverse](https://zenodo.org/records/4650046) dataset, containing data about the content published on YouTube between May 2005 and October 2019. Since it is large in size, we have extracted video metadata in batches as shown in `data_extraction.ipynb` and decided to avoid using comment metadata, thus handling much smaller amounts of data.
 
 The video metadata extracted corresponds to all videos listed as “Educational” by their creator: ~3.8M videos across ~25k channels. The category of the channel is not as relevant as it is determined by that of the 10 most recent videos. 
 
 ### Complementary dataset
-We scraped the country of origin of ~25k channels through the YouTube data API v3. (Since deleted channels do not store this information we might attempt to complement this with scraping of the web archive of [socialblade](https://socialblade.com/), the actual website having a paid API.)
+We scraped the country of origin of ~25k channels through the YouTube data API v3. (Since deleted channels do not store this information we might attempt to complement this with scraping of the [web archive](web.archive.org) of [socialblade](https://socialblade.com/), the actual website having a paid API.)
 
 ### Data Enrichment
 Using a LLM model, we classify educational videos into subcategories:
@@ -42,7 +42,7 @@ Using a LLM model, we classify educational videos into subcategories:
 Currently, we consider two models for the classification: [BART or BERT](https://medium.com/@reyhaneh.esmailbeigi/bert-gpt-and-bart-a-short-comparison-5d6a57175fca). Depending on model performance and computation speed on a sample of ~450k videos (~12% of the Education set), we will choose one of the models to extend the analysis to the whole set of interest (~3.8M videos). The two classification pipelines (one per model) are described in **NOTEBOOK NAME FROM SRC**.
 
 ## Methods
-1. Extract data by batches → only select videos categorized as part of  “education”
+1. Extract data by batches → only select videos categorized as “Education”
 2. Crawl for “country of origin” feature
 3. Clean strings for title and tags of videos (keep ASCII characters, remove emojis and symbols) before feeding to BART or BERT (depending on which performs best across accuracy and time consumption) to assign additional labels.
 4. Observe correlations between features to answer our questions.
@@ -74,6 +74,9 @@ The directory structure of new project looks like this:
 
 ```
 ├── data                        <- Project data files
+│   ├── figures
+│      ├── exploration          <- ???
+├── src                         <- various pipelines under development
 │
 ├── data_extraction.ipynb       <- extract data from video metadata file and save as multiple batches
 ├── country_scraping.ipynb      <- script to scrape country feature for channels using YouTube’s API
