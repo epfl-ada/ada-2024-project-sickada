@@ -1,0 +1,97 @@
+{
+    "Machine Learning": {
+        "url": "https://en.wikipedia.org/wiki/Machine_learning",
+        "events": {
+            "2008-01-01": "Hinton et al. - Deep Belief Networks (DBN)",
+            "2012-07-01": "AlexNet - Deep Convolutional Neural Networks for ImageNet",
+            "2014-06-01": "Generative Adversarial Networks (GANs) Introduced (Goodfellow et al.)",
+            "2015-03-01": "AlphaGo Defeats Human Champion in Go (DeepMind)",
+            "2016-01-01": "Deep Reinforcement Learning Breakthrough - DQN Paper",
+            "2017-01-01": "Attention Mechanism and Transformer Model (Vaswani et al.)",
+            "2018-01-01": "BERT Model - Transformer-based Pre-trained Model for NLP",
+            "2018-07-01": "OpenAI Five - Defeats Human Professional Dota 2 Players",
+            "2019-01-01": "GPT-2 Release by OpenAI (Large Scale Transformer Model)",
+            "2019-07-01": "BERT Fine-Tuning Advances in NLP"
+        }
+    },
+    "Cryptocurrency": {
+        "url": "https://en.wikipedia.org/wiki/Cryptocurrency",
+        "events": {
+            "2008-01-01": "Bitcoin Whitepaper Published by Satoshi Nakamoto",
+            "2009-01-03": "First Bitcoin Block Mined by Satoshi Nakamoto",
+            "2011-02-01": "Bitcoin Hits $1 for the First Time",
+            "2013-11-29": "Bitcoin Hits $1,000",
+            "2014-01-01": "Mt. Gox Exchange Collapse",
+            "2017-12-17": "Bitcoin Hits $20,000",
+            "2017-08-01": "Bitcoin Cash Fork from Bitcoin",
+            "2018-12-01": "Cryptocurrency Market Crash (Bitcoin below $4,000)",
+            "2020-05-11": "Bitcoin Halving Event (Third Halving)",
+            "2021-01-01": "Bitcoin Hits $30,000"
+        }
+    },
+    "Nuclear Power": {
+        "url": "https://en.wikipedia.org/wiki/Nuclear_power",
+        "events": {
+            "2008-01-01": "The Start of the Nuclear Renaissance in the USA",
+            "2011-03-11": "Fukushima Daiichi Nuclear Disaster (Japan)",
+            "2016-12-01": "Hinkley Point C Nuclear Power Plant (UK) Decision",
+            "2019-01-01": "International Atomic Energy Agency (IAEA) Supports Nuclear Innovation"
+        }
+    },
+    "Ebola": {
+        "url": "https://en.wikipedia.org/wiki/Ebola",
+        "events": {
+            "2008-01-01": "First Major Ebola Outbreak in Uganda",
+            "2014-03-01": "West Africa Ebola Outbreak (Largest Outbreak in History)",
+            "2014-12-01": "Declaration of Ebola Outbreak in Guinea, Liberia, and Sierra Leone",
+            "2015-01-01": "WHO Declares End of Ebola Outbreak in West Africa",
+            "2016-05-01": "Ebola Outbreak Declared Over in Sierra Leone",
+            "2018-08-01": "Ebola Outbreak in Democratic Republic of Congo",
+            "2019-03-01": "Second Wave of Ebola Outbreak in DRC"
+        }
+    },
+    "Brexit": {
+        "url": "https://en.wikipedia.org/wiki/Brexit",
+        "events": {
+            "2016-06-23": "Brexit Referendum - UK Votes to Leave EU",
+            "2017-03-29": "Article 50 Triggered - UK Begins Brexit Process",
+            "2017-07-24": "Boris Johnson Becomes Prime Minister, Pushes for Hard Brexit",
+            "2019-12-12": "UK General Election - Conservative Victory, Supporting Brexit",
+            "2020-01-31": "UK Officially Leaves the European Union (Brexit Day)"
+        }
+    },
+    "MeeToo Movement": {
+        "url": "https://en.wikipedia.org/wiki/MeToo_movement",
+        "events": {
+            "2006-10-15": "Tarana Burke Launches #MeToo Campaign",
+            "2017-10-05": "Harvey Weinstein Scandal Breaks, #MeToo Movement Gains Traction",
+            "2017-10-15": "#MeToo Goes Viral on Social Media",
+            "2018-01-01": "Golden Globe Awards Feature #MeToo and Time’s Up Movement",
+            "2018-11-01": "Time Magazine Names #MeToo Movement Person of the Year",
+            "2019-02-01": "Women’s March Supports #MeToo in New York and Other Cities"
+        }
+    },
+    "Grenfell Tower Fire": {
+        "url": "https://en.wikipedia.org/wiki/Grenfell_Tower_fire",
+        "events": {
+            "2017-06-14": "Grenfell Tower Fire - 72 Lives Lost in London Fire",
+            "2017-06-15": "First Responder and Firefighter Efforts at Grenfell Tower",
+            "2017-06-16": "Public Outcry and Protests Following Grenfell Tower Tragedy",
+            "2017-06-20": "UK Government Announces Inquiry into Grenfell Tower Fire",
+            "2018-01-01": "Official Inquiry into the Cause of Grenfell Tower Fire Begins",
+            "2020-01-01": "First Round of Public Testimonies in Grenfell Tower Inquiry"
+        }
+    },
+    "Natural disaster": {
+        "url": "https://en.wikipedia.org/wiki/Natural_disaster",
+        "events": {
+            "2004-12-26": "Indian Ocean Tsunami - 230,000 Lives Lost Across 14 Countries",
+            "2005-08-29": "Hurricane Katrina Strikes the US Gulf Coast",
+            "2010-01-12": "Haiti Earthquake - 230,000 Dead, 1.5 Million Displaced",
+            "2011-03-11": "Great East Japan Earthquake and Tsunami",
+            "2017-09-07": "Hurricane Irma - One of the Strongest Atlantic Hurricanes",
+            "2018-07-30": "Greece Wildfires Kill 100+ People in Attica Region",
+            "2019-03-14": "Cyclone Idai Hits Mozambique, Zimbabwe, and Malawi"
+        }
+    }
+}
