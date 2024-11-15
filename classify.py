@@ -58,9 +58,6 @@ def classify(
     print("Converting back to DataFrame...")
     final_data = dataset.to_pandas()
 
-    # Drop unnecessary columns
-    final_data = final_data.drop(columns=["Unnamed: 0", "__index_level_0__"])
-
     # Convert `classified_labels` column from string to list if needed
     if multi_label:
         final_data["classified_labels"] = final_data["classified_labels"].apply(
