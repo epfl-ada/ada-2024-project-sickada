@@ -12,12 +12,6 @@ import gzip
 
 from transformers import pipeline
 
-from googleapiclient.discovery import build
-
-API_KEY = pd.read_json(op.join(".", "config.json"))["api_key"][
-    0
-]  # local file w personal API key
-
 
 # ______________________________________________________________________________________________________________________
 # Data extraction
@@ -191,67 +185,6 @@ def plot_scores_BART(scores, labels, top_count, title):
     plt.tight_layout()
     plt.show()
 
-
-# ______________________________________________________________________________________________________________________
-# Functions to extract countries from the education channels - YouTube API
-# ______________________________________________________________________________________________________________________
-
-
-def extract_channels_edu(path_edu, N_BATCHES, verbose=False):
-    channels = []
-    for i in range(N_BATCHES):
-        if verbose:
-            print(f"Processing file : path_edu_{i}", end="")
-        edu = pd.read_csv(path_edu.format(i), index_col=0)
-        ch = list(pd.unique(edu["channel_id"]))
-        if verbose:
-            print(f"  --> Found {len(ch)} channels")
-        channels.extend(ch)
-    channels = list(set(channels))  # take unique of the junction
-    if verbose:
-        print("Total number of unique channels :", len(channels))
-    return channels
-
-
-def agglomerate_countries(x, val_counts, filter=10):
-    if type(x) == str and val_counts[x] < filter:
-        return "Other"
-    elif type(x) == str and x == "deleted":  # assign deleted to 'unknown'
-        return "?"
-    elif type(x) == float:  # assign NaN to 'unknown'
-        return "?"
-    else:
-        return x
-
-
-def youtube_country_scraper(channel_ids, verbose=False):
-    # Disable OAuthlib's HTTPS verification when running locally. *DO NOT* leave this option enabled in production.
-    os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
-    youtube = build("youtube", "v3", developerKey=API_KEY)
-    ids_string = ",".join(channel_ids)
-
-    request = youtube.channels().list(part="snippet", id=ids_string)
-    items = request.execute()
-    countries = {ch: "Redo" for ch in channel_ids}
-    if "items" in items:  # for when you redo with single channels
-        for item in items.get("items", []):
-            if "snippet" in item:
-                id = item.get("id")
-                country = item.get("snippet").get("country")
-                if (
-                    id in channel_ids
-                ):  # else the channel now has a different id and need to be redone
-                    countries[id] = country
-            else:
-                countries[id] = None
-    else:
-        countries[list(countries)[0]] = (
-            "deleted"  # channel info is not available anymore
-        )
-    if verbose:
-        print(items)
-        print(countries)
-    return countries
 
 
 # ______________________________________________________________________________________________________________________
