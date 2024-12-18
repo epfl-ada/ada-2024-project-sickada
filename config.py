@@ -61,40 +61,35 @@ content_labels = [
 
 # those that end with 9 are the ones where a general keyword was used
 content_categories = {  
-    '20': "history",
+    '20': "history", # wwi wwii
     '21': "religion or spirituality",
-    #7: "phylosophy or ethics",
-    #9: "economics or business",
-    #10: "financial education",
+    '22': "phylosophy or ethics",
+    #23: "finance economics or business",
+    '24': 'geopolitics',
     '25': "cryptocurrency",
+    '29': "history random", # litteraly the word 'history' # to be deleted
 
-    '4': 'programming', # needs to come before gaming
+    '3':"food or cooking",
+    '39': 'food random', # litteraly the word 'cooking'
+
+    '4': 'programming',
     '41': 'machine learning',
     '49': 'programming random',
 
     '5': 'children content',
-    '6': 'edutainment', # litteraly that word
-    #'61' : 'science and tech',
-    '64':"food or cooking", 
+
+    '6': 'edutainment', # litteraly the word
+    '61': 'science and tech',
+    '62': "wildlife or animals or nature",
+    '63': "foreign language or language proficiency",
     '65': 'home repair or renovation',
-
-    '8' : 'chess',
-    #'81': 'puzzles', # 5:  logic & riddles
-
-    '9' : 'gaming',
-    '91': 'roblox',
-    '92' : 'minecraft',
-    '93': 'fortnite',
-    '94': 'pubg',
-    '95' : 'league of legends',
-    '96': 'call of duty',
-    '99': 'gaming random',
+    '69': 'engineer',
 
     '7' : "sports",
     '71': 'football',
     '72': 'basketball',
     '73': 'american football',
-    '74' : 'cricket',
+    '74': 'cricket',
     '75': 'baseball',
     '79': 'sports random',
 
@@ -104,24 +99,32 @@ content_categories = {
     '83': 'violin tutorial',
     '84': 'drums tutorial',
     '85': 'ukulele tutorial',
-    '86': 'artists 2010', #vocal tutorial
+    '86': 'artists 2010',
     '87': 'classical music',
+    '88': 'dances',
     '89': 'music random',
+
+    '90' : 'chess',
+
+    '9' : 'gaming',
+    '91': 'roblox',
+    '92' : 'minecraft',
+    '94': 'pubg',
+    '95' : 'league of legends',
+    '96': 'call of duty',
+    '99': 'gaming random', # 'gaming'
 
     'x': 'audiobooks',
     'android' : 'android', # to sort
     'q': 'conspiracy',
+    's': 'spam', # not the ham of course
 
-    #'': "wildlife or animals or nature", 
+    #'81': 'puzzles', # 5:  logic & riddles
     #'7': "photography or videography or filmaking",
-    # 12: 
     # 14: "health or medicine",
     # 15: "travel",
     # 16: "motivational or personal development",
-     
     # 18: "beauty or fashion",
-    # 20: "foreign language or language proficiency",
-    # 21: "sociology or culture",
     # 22: "psychology",
     # 23: "climate or environment",
 }
