@@ -1,0 +1,6 @@
+TODO ADA :
+	- OLS sur proportion of video type per year (find r, and t test to see if statistically significant)
+	- remove 2017, 2015 from stacked bar plot to see if patter nstill here, chi² to see if the distribution is that way because of the original distrib
+	- Same edu and hobby
+	- OLS education over time (videos and channel)
+	- Find smth to do with channel time series (correlations between different channels or smth else)
