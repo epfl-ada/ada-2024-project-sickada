@@ -68,7 +68,7 @@ content_categories = {
     #23: "finance economics or business",
     '24': 'geopolitics',
     '25': "cryptocurrency",
-    '29': "history random", # litteraly the word 'history' # to be deleted
+    '29': "history random", # litteraly the word 'history'
 
     '3':"food or cooking",
     '39': 'food random', # litteraly the word 'cooking'
@@ -79,7 +79,7 @@ content_categories = {
 
     '5': 'children content',
 
-    '6': 'edutainment', # litteraly the word
+    '6': 'edutainment', # litteraly the word 'edutainment'
     '61': 'science and tech',
     '62': "wildlife or animals or nature",
     '63': "foreign language or language proficiency",
@@ -118,7 +118,7 @@ content_categories = {
     '99': 'gaming random', # 'gaming'
 
     'a': 'audiobooks',
-    'android' : 'android', # to sort
+    'android' : 'android',
     'q': 'conspiracy',
     's': 'spam', # not the ham of course
     'unclass': 'unclassified',
@@ -136,6 +136,7 @@ content_categories = {
 }
 
 
+
 label_clustering = {
     'Science': ['61', '69'],
     'Programming': ['4', '41'],
@@ -150,21 +151,57 @@ label_clustering = {
 }
 
 inverted_categories ={
+    'history': '20',
+    'religion or spirituality': '21',
+    'phylosophy or ethics': '22',
+    'geopolitics': '24',
+    'cryptocurrency': '25',
+    'history random': '29',
+    'food or cooking': '3',
+    'food random': '39',
     'programming': '4',
     'machine learning': '41',
-    'gaming': '9',
-    'roblox': '91',
-    'minecraft': '92',
-    'fortnite': '93',
-    'pubg': '94',
-    'league of legends': '95',
-    'call of duty': '96',
-
+    'programming random': '49',
+    'children content': '5',
+    'edutainment': '6',
+    'science and tech': '61',
+    'wildlife or animals or nature': '62',
+    'foreign language or language proficiency': '63',
+    'home repair or renovation': '65',
+    'engineer': '69',
+    'sports': '7',
+    'football': '71',
+    'basketball': '72',
+    'american football': '73',
+    'cricket': '74',
+    'baseball': '75',
+    'sports random': '79',
     'music': '8',
     'piano tutorial': '81',
     'guitar tutorial': '82',
     'violin tutorial': '83',
     'drums tutorial': '84',
-    'ukulele tutorial': '85'
+    'ukulele tutorial': '85',
+    'artists 2010': '86',
+    'classical music': '87',
+    'dances': '88',
+    'music random': '89',
+    'chess': '90',
+    'gaming': '9',
+    'roblox': '91',
+    'minecraft': '92',
+    'pubg': '94',
+    'league of legends': '95',
+    'call of duty': '96',
+    'super mario': '97',
+    'pokemon': '98',
+    'gaming random': '99',
+    'audiobooks': 'a',
+    'android': 'android',
+    'conspiracy': 'q',
+    'spam': 's',
+    'unclassified': 'unclass',
+    'lifestyle': 'life'
 }
+
 

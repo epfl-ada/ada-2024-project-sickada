@@ -10,7 +10,9 @@ import requests as req
 from bs4 import BeautifulSoup as Bs
 from tqdm.notebook import tqdm
 
-
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
+from config import content_categories, inverted_categories
 import pycountry
 from countryinfo import CountryInfo
 
@@ -86,3 +88,42 @@ def filter_categories(edu, kids = False, letters= False):
     if not letters:
         df  = df[~df.category.isin(['a', 'android', 'q', 's', 'life'])]
     return df[df.category != 'unclass']
+
+
+def plot_category_pie(countries, country_names, df, rows=1):
+    cols = len(countries) // rows
+    fig = make_subplots(rows=rows, cols=cols, subplot_titles=country_names, specs=[[{'type': 'domain'} for _ in range(cols)] for _ in range(rows)])
+    
+    df_sel = df[df.country.isin(countries)].groupby('subcategory')
+    lengths = df_sel.country.value_counts().unstack().sum(axis=0)
+    
+    for i, country in enumerate(countries):
+        country_data = df_sel.country.value_counts().unstack()[country]
+        inverted =[inverted_categories[cat.lower()] for cat in country_data.index]
+        fig.add_trace(
+            go.Pie(
+                labels=country_data.index,
+                values=country_data.values,
+                name=country,
+                hole=0.1,  #donut chart
+                customdata=inverted,  # Add category IDs as customdata
+                hovertemplate=("<b>%{label}</b><br>  Category ID: %{customdata}<br> Count: %{value}<br>  <extra></extra>"),
+                text = inverted,
+                textinfo='text',
+            ),
+            row=(i // (len(countries) // rows)) + 1, 
+            col=(i % (len(countries) // rows)) + 1,
+        )
+    
+    fig.update_layout(
+        # title_text="Category Distribution by Country",
+        height=500 * rows, 
+        showlegend=False,
+        
+    )
+
+    fig.update_traces( # add percent
+    hovertemplate="<b>%{label}: %{customdata}</b><br># videos: %{value}<br> Count: %{value}<br> ",
+    )
+    del df_sel
+    return fig
