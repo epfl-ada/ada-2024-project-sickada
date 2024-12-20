@@ -75,6 +75,9 @@ The directory structure of our project looks like this:
 ├── sickada_env.yml            <- File for installing python dependencies
 └── README.md
 ```
+## Website URL
+
+Please visit our website for further analysis at: https://vivaab.github.io/sickada/
 
 ## Conda environment setup
 You can find our environment file ** sickadata_env.yml** and create a conda environment using the following commands in a terminal after navigating to the repository:
