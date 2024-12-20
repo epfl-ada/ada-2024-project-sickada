@@ -11,6 +11,7 @@ path_figures = op.join(config_path, 'data', 'figures')
 path_metadata = op.join(path_data, "yt_metadata_en.jsonl.gz")
 path_channels = op.join(path_data, "df_channels_en.tsv.gz")
 path_edu = op.join(path_deriv, "Education_videos_{}.csv")
+path_classified = op.join(path_deriv, "subcategories_18_12_w_spam.csv")
 
 N_BATCHES = 8
 
@@ -39,7 +40,7 @@ content_labels = [
     "gaming",
     "chess or puzzles or logic", #riddles
     "religion or spirituality",
-    "phylosophy or ethics",
+    "philosophy or ethics",
     "history or politics",
     "economics or business",
     "financial education",
@@ -60,7 +61,7 @@ content_labels = [
 ]
 
 # those that end with 9 are the ones where a general keyword was used
-content_categories = {  
+content_categories = {
     '20': "history", # wwi wwii
     '21': "religion or spirituality",
     '22': "phylosophy or ethics",
@@ -122,6 +123,7 @@ content_categories = {
     's': 'spam', # not the ham of course
     'unclass': 'unclassified',
     'life': 'lifestyle'
+
 
     #'81': 'puzzles', # 5:  logic & riddles
     #'7': "photography or videography or filmaking",
