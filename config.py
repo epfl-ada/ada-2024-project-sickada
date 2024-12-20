@@ -113,16 +113,17 @@ content_categories = {
     '94': 'pubg',
     '95' : 'league of legends',
     '96': 'call of duty',
-    '97': 'pokemon',
-    '98': 'Super mario',
+    '97': 'super mario',
+    '98': 'pokemon',
     '99': 'gaming random', # 'gaming'
 
     'a': 'audiobooks',
     'android' : 'android', # to sort
     'q': 'conspiracy',
     's': 'spam', # not the ham of course
-    'life': 'lifestyle',
-    
+    'unclass': 'unclassified',
+    'life': 'lifestyle'
+
 
     #'81': 'puzzles', # 5:  logic & riddles
     #'7': "photography or videography or filmaking",
@@ -132,6 +133,20 @@ content_categories = {
     # 18: "beauty or fashion",
     # 22: "psychology",
     # 23: "climate or environment",
+}
+
+
+label_clustering = {
+    'Science': ['61', '69'],
+    'Programming': ['4', '41'],
+    'Sport': ['7', '71', '72', '73', '74', '75'],
+    'Edutainment': ['24', '20', '21', '22', '25'],
+    'Gaming': ['91','92', '94', '95', '96', '97', '98', '9'],
+    'Music': ['81', '82', '83', '84', '85', '87', '88', '8'],
+    'Cooking': ['3'],
+    'Home repair': ['65'],
+    'Wildlife': ['62'],
+    'Language learning': ['63']
 }
 
 inverted_categories ={
@@ -152,3 +167,4 @@ inverted_categories ={
     'drums tutorial': '84',
     'ukulele tutorial': '85'
 }
+
